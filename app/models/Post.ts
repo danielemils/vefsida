@@ -1,4 +1,4 @@
-import { Schema, model, models, ObjectId } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 export interface PostIF {
   id?: string;
