@@ -1,4 +1,5 @@
 import Link from "next/link";
+import NavUser from "./NavUser";
 
 const Navbar = () => {
   return (
@@ -7,6 +8,7 @@ const Navbar = () => {
         <Link href={"/"}>Home</Link>
         <Link href={"/Create"}>Create</Link>
         <Link href={"/About"}>About</Link>
+        <NavUser />
       </nav>
     </header>
   );

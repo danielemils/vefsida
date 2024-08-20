@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { Profile } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import User from "@/app/models/User";
 import { connectToDb } from "@/app/utils/database";
@@ -21,7 +21,7 @@ const handler = NextAuth({
           await User.create({
             email: profile?.email,
             username: profile?.name,
-            image: profile?.image,
+            image: profile?.picture,
           });
         }
 
@@ -32,20 +32,22 @@ const handler = NextAuth({
 
       return false;
     },
-    // async session({ session }) {
-    //   if (session.user) {
-    //     try {
-    //       await connectToDb();
-    //       const sessionUser = await User.findOne({ email: session?.user?.email })
-    //       if (sessionUser) {
-    //         session.user.id = sessionUser._id.toString();
-    //       }
-    //     } catch (error) {
-    //       console.error(error)
-    //     }
-    //   }
-    //   return session;
-    // }
+    async session({ session }) {
+      if (session.user) {
+        try {
+          await connectToDb();
+          const sessionUser = await User.findOne({
+            email: session?.user?.email,
+          });
+          if (sessionUser) {
+            session.user.id = sessionUser._id.toString();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      return session;
+    },
   },
 });
 
