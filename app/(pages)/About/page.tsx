@@ -1,9 +1,9 @@
 const About = () => {
   return (
-    <main>
+    <section>
       <h1>About</h1>
       <p>Next.js image sharing platform test.</p>
-    </main>
+    </section>
   );
 };
 

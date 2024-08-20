@@ -8,11 +8,11 @@ const Home = async () => {
   const lastId = initPosts?.at(-1)?.id;
 
   return (
-    <main className="py-10 max-w-full text-center">
+    <section className="py-10 w-full text-center">
       <h1>SomeOtherStuff</h1>
       <InitialFeed posts={initPosts} />
       {lastId && <ScrollingFeed initCursorId={lastId} />}
-    </main>
+    </section>
   );
 };
 

@@ -6,8 +6,14 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { isValidImageFile } from "@/app/utils/files";
 import { createURL } from "@/app/utils/vercelBlob";
+import { getServerSession } from "next-auth";
 
 export async function submitForm(prevState: any, formData: FormData) {
+  const session = await getServerSession();
+  if (!session?.user) {
+    return { errors: "Unauthorized" };
+  }
+
   const img: File | null = formData.get("image") as File;
   const desc: string | null = formData.get("description") as string;
 

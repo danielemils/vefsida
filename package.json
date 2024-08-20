@@ -9,7 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nextui-org/button": "^2.0.37",
+    "@nextui-org/navbar": "^2.0.36",
+    "@nextui-org/spinner": "^2.0.33",
+    "@nextui-org/system": "^2.2.5",
+    "@nextui-org/theme": "^2.2.9",
     "@vercel/blob": "^0.23.4",
+    "framer-motion": "^11.3.28",
     "mongoose": "^8.5.2",
     "next": "14.2.5",
     "next-auth": "^4.24.7",

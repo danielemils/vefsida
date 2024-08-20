@@ -1,16 +1,27 @@
 import Link from "next/link";
 import NavUser from "./NavUser";
+import {
+  Navbar as NextNavbar,
+  NavbarContent,
+  NavbarItem,
+} from "@nextui-org/navbar";
 
 const Navbar = () => {
   return (
-    <header>
-      <nav className="p-5 w-full flex gap-5 bg-slate-700">
-        <Link href={"/"}>Home</Link>
-        <Link href={"/Create"}>Create</Link>
-        <Link href={"/About"}>About</Link>
+    <NextNavbar position="sticky">
+      <NavbarContent>
+        <NavbarItem>
+          <Link href={"/"}>Home</Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link href={"/Create"}>Create</Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link href={"/About"}>About</Link>
+        </NavbarItem>
         <NavUser />
-      </nav>
-    </header>
+      </NavbarContent>
+    </NextNavbar>
   );
 };
 
