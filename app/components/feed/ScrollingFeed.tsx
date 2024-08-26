@@ -1,65 +1,57 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useRef } from "react";
 import { PostsGetResponse } from "@/app/api/posts/route";
-import { ROW_LENGTH } from "@/app/const/feedOptions";
+import { ROW_LENGTH, FETCH_NUM_ROWS } from "@/app/const/feedOptions";
 import FeedContainer from "@/comps/feed/FeedContainer";
-import PostContainer from "./PostContainer";
 import { PostIF } from "@/app/models/Post";
 import { useInView } from "react-intersection-observer";
+import Loading from "@/comps/Loading";
 
 const ScrollingFeed = ({ initCursorId }: { initCursorId: string }) => {
   const [posts, setPosts] = useState<PostIF[]>([]);
-  const [cursorId, setCursorId] = useState(initCursorId);
-  const [loading, setLoading] = useState(false);
   const [reachedEnd, setReachedEnd] = useState(false);
 
-  const { ref, inView } = useInView({ threshold: 0.2 });
+  const loading = useRef(false);
 
-  useEffect(() => {
-    if (inView) {
-      loadMorePosts();
-    }
-  }, [inView]);
+  const { ref } = useInView({
+    onChange: (inView) => inView && loadMorePosts(),
+    rootMargin: "50%",
+  });
 
-  useEffect(() => {
-    setCursorId(initCursorId);
-  }, [initCursorId]);
-
+  // TODO: https://swr.vercel.app/docs/pagination#useswrinfinite
   const loadMorePosts = async () => {
-    setLoading(true);
+    if (loading.current || reachedEnd) return;
 
-    const res = await fetch(`/api/posts?count=${ROW_LENGTH}&id=${cursorId}`);
-    const resData: PostsGetResponse = await res.json();
+    loading.current = true;
 
-    if (resData.posts.length < ROW_LENGTH) {
-      setReachedEnd(true);
+    try {
+      const cursorId = posts?.at(-1)?.id || initCursorId;
+      const res = await fetch(
+        `/api/posts?count=${ROW_LENGTH * FETCH_NUM_ROWS}&id=${cursorId}`
+      );
+      const resData: PostsGetResponse = await res.json();
+
+      if (resData.posts.length < ROW_LENGTH) {
+        setReachedEnd(true);
+      }
+
+      setPosts((curr) => [...curr, ...resData?.posts]);
+    } catch (error) {
+      console.error("Error loading posts:", error);
+    } finally {
+      loading.current = false;
     }
-
-    setCursorId((curr) => resData?.posts?.at(-1)?.id ?? curr);
-    setPosts((curr) => [...curr, ...resData?.posts]);
-
-    setLoading(false);
   };
 
   return (
     <div>
-      <FeedContainer>
-        {posts.map((post, index) => (
-          <PostContainer key={`${post.id}_${index}`} post={post} />
-        ))}
-      </FeedContainer>
+      <FeedContainer posts={posts} />
       {!reachedEnd && (
-        // <button
-        //   disabled={loading}
-        //   onClick={loadMorePosts}
-        //   style={{ marginTop: 20 }}
-        // >
-        //   Load More Images
-        // </button>
-        <div ref={ref}></div>
+        <div ref={ref}>
+          <Loading />
+        </div>
       )}
-      {loading && <p>Loading...</p>}
     </div>
   );
 };

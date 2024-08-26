@@ -1,5 +1,5 @@
-import InitialFeed from "@/comps/feed/InitialFeed";
 import ScrollingFeed from "@/comps/feed/ScrollingFeed";
+import FeedContainer from "@/comps/feed/FeedContainer";
 import { ROW_LENGTH, INIT_FEED_ROWS } from "@/app/const/feedOptions";
 import { getPostsWithCursor } from "@/app/utils/database";
 
@@ -9,8 +9,7 @@ const Home = async () => {
 
   return (
     <section className="py-10 w-full text-center">
-      <h1>SomeOtherStuff</h1>
-      <InitialFeed posts={initPosts} />
+      <FeedContainer posts={initPosts} />
       {lastId && <ScrollingFeed initCursorId={lastId} />}
     </section>
   );

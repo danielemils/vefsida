@@ -18,8 +18,10 @@ export const GET = async (req: Request): Promise<Response> => {
 
   const posts = await getPostsWithCursor(count, id ?? undefined);
 
-  return Response.json(
+  const res = Response.json(
     { posts: posts.map((post) => post.toJSON({ getters: true })) },
     { status: 200 }
   );
+
+  return res;
 };

@@ -15,15 +15,6 @@ const NavUser = () => {
         {session?.user?.name && <p>Hello, {session.user.name}</p>}
       </NavbarItem>
       <NavbarItem>
-        <Button>
-          {session?.user ? (
-            <Link href={"/api/auth/signout"}>Sign Out</Link>
-          ) : (
-            <Link href={"/api/auth/signin"}>Sign In</Link>
-          )}
-        </Button>
-      </NavbarItem>
-      <NavbarItem>
         <div className="relative w-10 h-10">
           {session?.user?.image && (
             <Image
@@ -35,6 +26,15 @@ const NavUser = () => {
             />
           )}
         </div>
+      </NavbarItem>
+      <NavbarItem>
+        <Button>
+          {session?.user ? (
+            <Link href={"/api/auth/signout"}>Sign Out</Link>
+          ) : (
+            <Link href={"/api/auth/signin"}>Sign In</Link>
+          )}
+        </Button>
       </NavbarItem>
     </NavbarContent>
   );
