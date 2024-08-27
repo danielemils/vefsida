@@ -1,11 +1,6 @@
 import "server-only";
 
-import {
-  connect,
-  connection,
-  ConnectionStates,
-  HydratedDocument,
-} from "mongoose";
+import { connect, connection, ConnectionStates, Types } from "mongoose";
 import Post, { PostIF } from "@/app/models/Post";
 
 export const connectToDb = async () => {
@@ -18,23 +13,32 @@ export const connectToDb = async () => {
   }
 };
 
+export interface PostsWithCursorIF {
+  posts: PostIF[];
+  nextCursor?: string;
+}
+
 export const getPostsWithCursor = async (
   count: number,
-  id?: string
-): Promise<HydratedDocument<PostIF>[]> => {
+  cursor?: string
+): Promise<PostsWithCursorIF> => {
   //https://mongoosejs.com/docs/api/query.html#Query.prototype.cursor()
 
   await connectToDb();
 
-  const filter = id ? { _id: { $gt: id } } : {};
-  const cursor = Post.find(filter).limit(count).cursor();
-  const posts: HydratedDocument<PostIF>[] = [];
+  const filter = cursor ? { _id: { $gte: new Types.ObjectId(cursor) } } : {};
+  const postDocs = await Post.find(filter)
+    .limit(count + 1)
+    .exec();
 
-  for (let i = 0; i < count; i++) {
-    const post = await cursor.next();
-    if (!post) break;
-    posts.push(post);
+  const ret: PostsWithCursorIF = { posts: [] };
+
+  if (postDocs.length > count) {
+    // have not reached end
+    ret.nextCursor = postDocs.pop()?.id;
   }
 
-  return posts;
+  ret.posts = postDocs.map((postDoc) => postDoc.toObject());
+
+  return ret;
 };

@@ -1,11 +1,8 @@
 import { MAX_FILE_SIZE, ALLOWED_MIME_TYPES } from "@/app/const/fileOptions";
 
-interface isValidIF {
-  result: boolean;
-  errors?: string;
-}
-
-export const isValidImageFile = (file: File): isValidIF => {
+export const isValidImageFile = (
+  file: File
+): { result: boolean; errors?: string } => {
   if (!(file.size <= MAX_FILE_SIZE)) {
     return {
       result: false,

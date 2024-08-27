@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Model } from "mongoose";
 
 export interface PostIF {
   id?: string;
@@ -16,9 +16,22 @@ const postSchema = new Schema<PostIF>(
     date: { type: Date, default: Date.now },
     // owner: { type: Schema.Types.ObjectId, ref: "User" }
   },
-  { collection: "posts" }
+  {
+    collection: "posts",
+    toObject: {
+      transform: (doc, ret, options): PostIF => {
+        return {
+          id: doc.id,
+          imageURL: doc.imageURL,
+          description: doc.description,
+          tags: doc.tags,
+          date: doc.date,
+        };
+      },
+    },
+  }
 );
 
-const Post = models.Post || model<PostIF>("Post", postSchema);
+const Post: Model<PostIF> = models.Post || model<PostIF>("Post", postSchema);
 
 export default Post;

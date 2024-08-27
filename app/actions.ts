@@ -8,14 +8,10 @@ import { isValidImageFile } from "@/app/utils/files";
 import { createURL } from "@/app/utils/vercelBlob";
 import { getServerSession } from "next-auth";
 
-interface submitFormReturn {
-  errors?: string;
-}
-
 export async function submitForm(
   prevState: any,
   formData: FormData
-): Promise<submitFormReturn> {
+): Promise<{ errors?: string }> {
   const session = await getServerSession();
   if (!session?.user) {
     return { errors: "Unauthorized" };
