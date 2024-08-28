@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const PostContainer = ({ post }: Readonly<{ post: PostIF }>) => {
   return (
-    <div className="h-[25vw] rounded-lg relative after:size-full overflow-hidden transition-all hover:rounded-3xl hover:scale-95 after:transition-all after:absolute after:inset-0 after:hover:bg-black after:hover:bg-opacity-15">
+    <div className="h-[25vw] rounded-lg relative overflow-hidden transition-all hover:rounded-3xl hover:scale-95 after:size-full after:transition-all after:absolute after:inset-0 after:hover:bg-black after:hover:bg-opacity-15">
       <Image
         src={post.imageURL}
         alt={post.description}

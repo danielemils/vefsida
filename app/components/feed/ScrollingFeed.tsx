@@ -18,10 +18,11 @@ const ScrollingFeed = ({ initCursorId }: { initCursorId: string }) => {
       if (previousPageData && !previousPageData.nextCursor) return null;
 
       // first page, we don't have `previousPageData`
-      if (pageIndex === 0)
+      if (pageIndex === 0) {
         return `/api/posts?count=${
           ROW_LENGTH * FETCH_NUM_ROWS
         }&cursor=${initCursorId}`;
+      }
 
       // add the cursor to the API endpoint
       return `/api/posts?count=${ROW_LENGTH * FETCH_NUM_ROWS}&cursor=${
@@ -36,6 +37,8 @@ const ScrollingFeed = ({ initCursorId }: { initCursorId: string }) => {
     fetcher,
     {
       revalidateFirstPage: false,
+      // revalidateAll: true,
+      // refreshInterval: 60_000,
     }
   );
 
@@ -45,7 +48,7 @@ const ScrollingFeed = ({ initCursorId }: { initCursorId: string }) => {
   useEffect(() => {
     if (reachedEnd) {
       mutate(data, {
-        revalidate: (data) => !!!data?.nextCursor,
+        revalidate: (data) => !!!data?.nextCursor, // only revalidate last "page"
       });
     }
   }, [reachedEnd, data, size, mutate]);
@@ -57,11 +60,11 @@ const ScrollingFeed = ({ initCursorId }: { initCursorId: string }) => {
   });
 
   return (
-    <div>
+    <>
       <FeedContainer posts={posts} />
       {!reachedEnd && !isLoading && <div ref={ref} />}
       {isLoading && <Loading />}
-    </div>
+    </>
   );
 };
 
