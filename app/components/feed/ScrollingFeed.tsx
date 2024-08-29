@@ -32,32 +32,19 @@ const ScrollingFeed = ({ initCursorId }: { initCursorId: string }) => {
     [initCursorId]
   );
 
-  const { data, size, setSize, isLoading, mutate } = useSWRInfinite(
-    getKey,
-    fetcher,
-    {
-      revalidateFirstPage: false,
-      // revalidateAll: true,
-      // refreshInterval: 60_000,
-    }
-  );
-
-  const posts = data ? data.flatMap((pwc) => pwc.posts) : [];
-  const reachedEnd = data ? !!!data?.at(-1)?.nextCursor : false;
-
-  useEffect(() => {
-    if (reachedEnd) {
-      mutate(data, {
-        revalidate: (data) => !!!data?.nextCursor, // only revalidate last "page"
-      });
-    }
-  }, [reachedEnd, data, size, mutate]);
+  const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher, {
+    // revalidateAll: true,
+    // refreshInterval: 60_000,
+  });
 
   const { ref } = useInView({
     onChange: (inView) =>
       inView && !reachedEnd && !isLoading && setSize(size + 1),
-    rootMargin: "50%",
+    rootMargin: "20%",
   });
+
+  const posts = data ? data.flatMap((pwc) => pwc.posts) : [];
+  const reachedEnd = data ? !!!data?.at(-1)?.nextCursor : false;
 
   return (
     <>

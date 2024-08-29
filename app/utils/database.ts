@@ -22,19 +22,18 @@ export const getPostsWithCursor = async (
   count: number,
   cursor?: string
 ): Promise<PostsWithCursorIF> => {
-  //https://mongoosejs.com/docs/api/query.html#Query.prototype.cursor()
-
   await connectToDb();
 
-  const filter = cursor ? { _id: { $gte: new Types.ObjectId(cursor) } } : {};
+  const filter = cursor ? { _id: { $lte: new Types.ObjectId(cursor) } } : {};
   const postDocs = await Post.find(filter)
     .limit(count + 1)
+    .sort({ _id: "desc" })
     .exec();
 
   const ret: PostsWithCursorIF = { posts: [] };
 
+  // have not reached end
   if (postDocs.length > count) {
-    // have not reached end
     ret.nextCursor = postDocs.pop()?.id;
   }
 

@@ -19,9 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} dark text-foreground bg-background`}>
+        <div className="fixed w-screen h-screen bg-gradient-to-t from-neutral-800 to-neutral-900" />
         <Providers>
           <Navbar />
-          <main className="size-full">{children}</main>
+          <main className="size-full relative z-10">{children}</main>
         </Providers>
       </body>
     </html>
