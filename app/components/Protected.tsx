@@ -12,7 +12,14 @@ const Protected = ({ children }: { children: Readonly<React.ReactNode> }) => {
   }
 
   if (status == "unauthenticated") {
-    return <Link href={"/api/auth/signin"}>Sign In</Link>;
+    return (
+      <div className="mt-12 text-center">
+        <Link href={"/api/auth/signin"} className="text-primary-500">
+          Sign in
+        </Link>
+        {" to create posts."}
+      </div>
+    );
   }
 
   return <>{children}</>;
