@@ -1,7 +1,7 @@
 "use client";
 
-import NavUser from "@/app/components/nav/NavUser";
-import NavLink from "@/app/components/nav/NavLink";
+import NavUser from "@/comps/nav/NavUser";
+import NavLink from "@/comps/nav/NavLink";
 import {
   Navbar as NextNavbar,
   NavbarContent,
