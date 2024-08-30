@@ -11,7 +11,9 @@ import useSWRInfinite from "swr/infinite";
 const fetcher = async (url: string): Promise<PostsWithCursorIF> =>
   fetch(url).then((r) => r.json());
 
-const ScrollingFeed = ({ initCursorId }: { initCursorId: string }) => {
+const ScrollingFeed = ({
+  initCursorId,
+}: Readonly<{ initCursorId: string }>) => {
   const getKey = useCallback(
     (pageIndex: number, previousPageData: PostsWithCursorIF) => {
       // reached the end

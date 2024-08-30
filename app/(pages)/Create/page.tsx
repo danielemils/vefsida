@@ -5,13 +5,14 @@ import { useFormState, useFormStatus } from "react-dom";
 import Protected from "@/comps/Protected";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
+import Loading from "@/app/components/Loading";
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={pending}>
-      Create
+    <Button type="submit" isDisabled={pending} disabled={pending}>
+      {pending ? <Loading /> : "Create"}
     </Button>
   );
 };

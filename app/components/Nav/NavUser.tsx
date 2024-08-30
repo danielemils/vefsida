@@ -11,8 +11,8 @@ const NavUser = () => {
 
   return (
     <NavbarContent justify="end">
-      <NavbarItem>
-        {session?.user?.name && <p>Hello, {session.user.name}</p>}
+      <NavbarItem className="hidden md:flex">
+        {session?.user?.name && <p>{session.user.name}</p>}
       </NavbarItem>
       <NavbarItem>
         <div className="relative w-10 h-10">
