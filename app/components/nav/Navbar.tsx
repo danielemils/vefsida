@@ -30,7 +30,8 @@ const Navbar = () => {
       position="sticky"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setMenuOpen}
-      className="bg-neutral-900/50"
+      maxWidth="xl"
+      // className="bg-neutral-900/50"
       classNames={{
         item: ["data-[active=true]:text-primary-500"],
       }}

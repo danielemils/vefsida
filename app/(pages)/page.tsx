@@ -7,7 +7,7 @@ const Home = async () => {
   const initPosts = await getPostsWithCursor(ROW_LENGTH * INIT_FEED_ROWS);
 
   return (
-    <section className="py-10 w-full">
+    <section className="rounded-xl overflow-hidden">
       <FeedContainer posts={initPosts.posts} />
       {initPosts.nextCursor && (
         <ScrollingFeed initCursorId={initPosts.nextCursor} />

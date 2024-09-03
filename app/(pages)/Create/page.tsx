@@ -22,8 +22,8 @@ const Create = () => {
 
   return (
     <Protected>
-      <section className="flex justify-center mt-12">
-        <form action={formAction} className="flex flex-col gap-5">
+      <section className="max-w-[512px] mx-auto">
+        <form action={formAction} className="w-full grid grid-cols-1 gap-5">
           <Input
             type="file"
             name="image"
