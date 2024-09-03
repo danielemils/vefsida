@@ -20,14 +20,12 @@ const PostInteract = ({ post }: Readonly<{ post: PostIF }>) => {
         onOpenChange={onOpenChange}
         placement="center"
         hideCloseButton
-        className="max-w-3xl"
+        className="max-w-3xl py-4"
       >
         <ModalContent>
-          {() => (
-            <ModalBody>
-              <PostDetails post={post} />
-            </ModalBody>
-          )}
+          <ModalBody>
+            <PostDetails post={post} />
+          </ModalBody>
         </ModalContent>
       </Modal>
     </>

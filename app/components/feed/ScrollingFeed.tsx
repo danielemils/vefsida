@@ -34,10 +34,14 @@ const ScrollingFeed = ({
     [initCursorId]
   );
 
-  const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher, {
-    // revalidateAll: true,
-    // refreshInterval: 60_000,
-  });
+  const { data, size, setSize, isLoading, isValidating } = useSWRInfinite(
+    getKey,
+    fetcher,
+    {
+      // revalidateAll: true,
+      // refreshInterval: 60_000,
+    }
+  );
 
   const { ref } = useInView({
     onChange: (inView) =>
@@ -51,8 +55,8 @@ const ScrollingFeed = ({
   return (
     <>
       <FeedContainer posts={posts} />
-      {!reachedEnd && !isLoading && <div ref={ref} />}
-      {isLoading && <Loading />}
+      {!reachedEnd && !isLoading && !isValidating && <div ref={ref} />}
+      {(isLoading || isValidating) && <Loading />}
     </>
   );
 };
