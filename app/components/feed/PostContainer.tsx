@@ -4,12 +4,12 @@ import PostInteract from "@/comps/feed/PostInteract";
 
 const PostContainer = ({ post }: Readonly<{ post: PostIF }>) => {
   return (
-    <div className="h-[30vw] sm:h-[15vw] relative overflow-hidden transition-all hover:scale-95 after:pointer-events-none after:size-full after:transition-all after:absolute after:inset-0 after:hover:bg-black/15">
+    <div className="h-[30vw] sm:h-[15vw] relative overflow-hidden group transition-all hover:rounded-3xl after:pointer-events-none after:size-full after:transition-all after:absolute after:inset-0 after:hover:bg-black/15">
       <Image
         src={post.imageURL}
         alt={post.description}
         fill
-        className="object-cover"
+        className="object-cover transition-all group-hover:scale-105"
         sizes="(min-width: 640px) 15vw, 30vw"
       />
       <PostInteract post={post} />

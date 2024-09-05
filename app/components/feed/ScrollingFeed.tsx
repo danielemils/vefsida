@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { ROW_LENGTH, FETCH_NUM_ROWS } from "@/app/const/feedOptions";
 import FeedContainer from "@/comps/feed/FeedContainer";
 import { useInView } from "react-intersection-observer";

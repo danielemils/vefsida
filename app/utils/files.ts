@@ -1,4 +1,7 @@
-import { MAX_FILE_SIZE, ALLOWED_MIME_TYPES } from "@/app/const/fileOptions";
+import {
+  MAX_FILE_SIZE,
+  ALLOWED_MIME_TYPES,
+} from "@/app/const/validationOptions";
 
 export const isValidImageFile = (
   file: File
