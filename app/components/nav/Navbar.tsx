@@ -31,9 +31,12 @@ const Navbar = () => {
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setMenuOpen}
       maxWidth="xl"
-      // className="bg-neutral-900/50"
+      className="bg-transparent"
+      isBlurred={false}
       classNames={{
-        item: ["data-[active=true]:text-primary-500"],
+        item: "data-[active=true]:text-primary-500",
+        wrapper:
+          "px-0 mx-6 bg-gradient-to-r from-background via-background/80 to-background",
       }}
     >
       <NavbarContent className="sm:hidden">
@@ -47,6 +50,7 @@ const Navbar = () => {
           </NavLink>
         ))}
       </NavbarContent>
+
       <NavUser />
 
       <NavbarMenu onClick={handleMenuItemClick}>

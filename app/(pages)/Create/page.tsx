@@ -4,15 +4,20 @@ import { submitForm } from "@/app/actions";
 import { useFormState, useFormStatus } from "react-dom";
 import Protected from "@/comps/Protected";
 import { Button } from "@nextui-org/button";
-import { Input } from "@nextui-org/input";
+import { Input, Textarea } from "@nextui-org/input";
 import Loading from "@/comps/Loading";
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" isDisabled={pending} disabled={pending}>
-      {pending ? <Loading /> : "Create"}
+    <Button
+      type="submit"
+      isDisabled={pending}
+      disabled={pending}
+      isLoading={pending}
+    >
+      Create
     </Button>
   );
 };
@@ -31,8 +36,7 @@ const Create = () => {
             isRequired
             required
           />
-          <Input
-            type="text"
+          <Textarea
             label="Description"
             name="description"
             isRequired
