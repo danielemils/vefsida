@@ -33,8 +33,8 @@ export default function RootLayout({
             style={{ paddingBottom: SCROLL_SHADOW_HEIGHT }}
           >
             <Navbar />
-            <main className="p-6">
-              <div className="max-w-screen-xl mx-auto">{children}</div>
+            <main>
+              <div className="max-w-screen-xl mx-auto p-6">{children}</div>
             </main>
           </ScrollShadow>
         </Providers>
