@@ -10,7 +10,7 @@ const PostContainer = ({ post }: Readonly<{ post: PostIF }>) => {
         alt={post.description}
         fill
         className="object-cover transition-all group-hover:scale-105"
-        sizes="(min-width: 640px) 15vw, 30vw"
+        sizes="(min-width: 640px) 20vw, 40vw"
       />
       <PostInteract post={post} />
     </div>

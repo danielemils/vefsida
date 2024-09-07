@@ -5,12 +5,21 @@ import { getPostsWithCursor } from "@/app/utils/database";
 
 const Home = async () => {
   const initPosts = await getPostsWithCursor(ROW_LENGTH * INIT_FEED_ROWS);
+  
+  // dev
+  if (process.env.DATA_SAVER === "true") {
+    if (initPosts) initPosts.nextCursor = undefined;
+  }
 
   return (
     <section className="rounded-xl overflow-hidden">
-      <FeedContainer posts={initPosts.posts} />
-      {initPosts.nextCursor && (
-        <ScrollingFeed initCursorId={initPosts.nextCursor} />
+      {initPosts && (
+        <>
+          <FeedContainer posts={initPosts.posts} />
+          {initPosts.nextCursor && (
+            <ScrollingFeed initCursorId={initPosts.nextCursor} />
+          )}
+        </>
       )}
     </section>
   );

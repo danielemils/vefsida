@@ -1,24 +1,25 @@
 "use server";
 
-import Post, { PostIF } from "@/app/models/Post";
+import Post, { PostSchemaType } from "@/app/models/Post";
 import { connectToDb } from "@/app/utils/database";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { isValidImageFile } from "@/app/utils/files";
 import { createURL } from "@/app/utils/vercelBlob";
-import { getServerSession } from "next-auth";
+import { auth } from "@/app/utils/auth";
 import {
   MAX_DESCRIPTION_LENGTH,
   MAX_TAG_LENGTH,
   MAX_TAG_ARRAY_LENGTH,
 } from "@/app/const/validationOptions";
+import { Types } from "mongoose";
 
 export async function submitForm(
   prevState: any,
   formData: FormData
 ): Promise<{ errors?: string }> {
-  const session = await getServerSession();
-  if (!session?.user) {
+  const session = await auth();
+  if (!session?.user?.id) {
     return { errors: "Unauthorized" };
   }
 
@@ -46,9 +47,10 @@ export async function submitForm(
     return { errors: "Failed to upload image" };
   }
 
-  const postObj: PostIF = {
+  const postObj: PostSchemaType = {
     imageURL: url,
     description: formData.get("description") as string,
+    owner: new Types.ObjectId(session.user.id)
   };
 
   try {
