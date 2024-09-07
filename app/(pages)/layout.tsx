@@ -1,8 +1,3 @@
-// init models
-import("@/app/utils/database");
-import("@/app/models/User");
-import("@/app/models/Post");
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/app/globals.css";

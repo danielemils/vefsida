@@ -1,5 +1,5 @@
 import { Schema, model, models, Model, Types } from "mongoose";
-import { UserIF } from "@/app/models/User";
+import User, { UserIF } from "@/app/models/User";
 
 export interface PostIF {
   id?: string;
@@ -20,7 +20,7 @@ const postSchema = new Schema<PostSchemaType>(
     description: { type: String, required: [true, "Description is required"] },
     tags: [String],
     date: { type: Date, default: Date.now },
-    owner: { type: Schema.Types.ObjectId, ref: "User", required: true }
+    owner: { type: Schema.Types.ObjectId, ref: User, required: true }
   },
   {
     collection: "posts",
