@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Model } from "mongoose";
 
 export interface UserIF {
   id?: string;
@@ -17,9 +17,25 @@ const userSchema = new Schema<UserIF>(
     username: { type: String, required: [true, "Username is required"] },
     image: { type: String, required: [true, "Image is required"] },
   },
-  { collection: "users" }
+  {
+    collection: "users",
+    toObject: {
+      transform: (doc, ret, options) => {
+        ret.id = doc.id;
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
+    toJSON: {
+      transform: (doc, ret, options) => {
+        ret.id = doc.id;
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
+  }
 );
 
-const User = models.User || model<UserIF>("User", userSchema);
+const User: Model<UserIF> = models.User || model<UserIF>("User", userSchema);
 
 export default User;

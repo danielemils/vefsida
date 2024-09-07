@@ -53,11 +53,11 @@ const ScrollingFeed = ({
   const reachedEnd = data ? !!!data?.at(-1)?.nextCursor : false;
 
   return (
-    <>
+    <div className="mt-1">
       <FeedContainer posts={posts} />
       {!reachedEnd && !isLoading && !isValidating && <div ref={ref} />}
       {(isLoading || isValidating) && <Loading />}
-    </>
+    </div>
   );
 };
 
