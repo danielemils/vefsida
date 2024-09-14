@@ -14,7 +14,10 @@ const NavLink = ({
   const pathname = usePathname();
 
   return (
-    <NavbarItem isActive={pathname === href}>
+    <NavbarItem
+      isActive={pathname === href}
+      className="hover:text-foreground-500"
+    >
       <Link href={href}>{children}</Link>
     </NavbarItem>
   );

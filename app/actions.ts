@@ -32,9 +32,7 @@ export async function submitForm(
   const { errors } = isValidImageFile(img);
   if (errors) {
     return { errors };
-  } else if (!desc) {
-    return { errors: "Description is required" };
-  } else if (desc.length > MAX_DESCRIPTION_LENGTH) {
+  } else if (desc && desc.length > MAX_DESCRIPTION_LENGTH) {
     return {
       errors: `Description needs to be shorter than ${MAX_DESCRIPTION_LENGTH} characters`,
     };
@@ -50,7 +48,7 @@ export async function submitForm(
   const postObj: PostSchemaType = {
     imageURL: url,
     description: formData.get("description") as string,
-    owner: new Types.ObjectId(session.user.id)
+    owner: new Types.ObjectId(session.user.id),
   };
 
   try {
