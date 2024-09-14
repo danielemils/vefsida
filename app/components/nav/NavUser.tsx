@@ -13,12 +13,17 @@ import {
 } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 import Loading from "@/comps/Loading";
+import ThemeSwitcher from "@/comps/nav/ThemeSwitcher";
+import { avatarProps } from "@/app/const/nextUIProps";
 
 const NavUser = () => {
   const { data: session, status } = useSession();
 
   return (
     <NavbarContent justify="end">
+      <NavbarItem>
+        <ThemeSwitcher />
+      </NavbarItem>
       {status === "loading" ? (
         <NavbarItem>
           <Loading />
@@ -41,13 +46,10 @@ const NavUser = () => {
               <Dropdown placement="bottom-end">
                 <DropdownTrigger>
                   <Avatar
-                    isBordered
+                    {...avatarProps}
                     as="button"
-                    color="primary"
                     name={session?.user?.name || undefined}
-                    size="md"
                     src={session?.user?.image || undefined}
-                    className="mr-1"
                   />
                 </DropdownTrigger>
                 <DropdownMenu

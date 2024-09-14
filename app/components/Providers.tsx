@@ -3,6 +3,7 @@
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { NextUIProvider } from "@nextui-org/system";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 const Providers = ({
   children,
@@ -13,7 +14,11 @@ const Providers = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <NextUIProvider>{children}</NextUIProvider>
+      <NextUIProvider>
+        <NextThemesProvider attribute="class" defaultTheme="light">
+          {children}
+        </NextThemesProvider>
+      </NextUIProvider>
     </SessionProvider>
   );
 };

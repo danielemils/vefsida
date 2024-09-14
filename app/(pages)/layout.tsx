@@ -21,9 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="overflow-visible">
-      <body
-        className={`${inter.className} min-h-full min-w-full`} // dark text-foreground bg-background
-      >
+      <body className={`${inter.className} min-h-full min-w-full`}>
         {/* <div className="fixed w-screen h-screen bg-gradient-to-t from-neutral-800 to-neutral-900" /> */}
         <Providers>
           <ScrollShadow

@@ -4,7 +4,7 @@ import User, { UserIF } from "@/app/models/User";
 export interface PostIF {
   id?: string;
   imageURL: string;
-  description: string;
+  description?: string;
   tags?: string[];
   date?: Date;
   owner: UserIF;
@@ -12,15 +12,15 @@ export interface PostIF {
 
 export type PostSchemaType = Omit<PostIF, "owner"> & {
   owner: Types.ObjectId;
-}
+};
 
 const postSchema = new Schema<PostSchemaType>(
   {
     imageURL: { type: String, required: [true, "URL is required"] },
-    description: { type: String, required: [true, "Description is required"] },
+    description: { type: String },
     tags: [String],
     date: { type: Date, default: Date.now },
-    owner: { type: Schema.Types.ObjectId, ref: User, required: true }
+    owner: { type: Schema.Types.ObjectId, ref: User, required: true },
   },
   {
     collection: "posts",
@@ -41,6 +41,7 @@ const postSchema = new Schema<PostSchemaType>(
   }
 );
 
-const Post: Model<PostSchemaType> = models.Post || model<PostSchemaType>("Post", postSchema);
+const Post: Model<PostSchemaType> =
+  models.Post || model<PostSchemaType>("Post", postSchema);
 
 export default Post;
