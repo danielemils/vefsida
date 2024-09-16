@@ -4,18 +4,28 @@ import { submitForm } from "@/app/actions";
 import { useFormState, useFormStatus } from "react-dom";
 import Protected from "@/comps/Protected";
 import { Button } from "@nextui-org/button";
-import { Input, Textarea } from "@nextui-org/input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import HashtagInput from "@/comps/create/HashtagInput";
+import ImageFileInput from "@/comps/create/ImageFileInput";
+import DescriptionInput from "@/comps/create/DescriptionInput";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
-const SubmitButton = () => {
+const SubmitButton = ({
+  hasErrors,
+  hasImage,
+}: {
+  hasErrors: boolean;
+  hasImage: boolean;
+}) => {
   const { pending } = useFormStatus();
 
   return (
     <Button
       type="submit"
-      isDisabled={pending}
-      disabled={pending}
+      isDisabled={pending || hasErrors || !hasImage}
+      disabled={pending || hasErrors || !hasImage}
       isLoading={pending}
+      color="primary"
     >
       Create
     </Button>
@@ -24,54 +34,26 @@ const SubmitButton = () => {
 
 const Create = () => {
   const [state, formAction] = useFormState(submitForm, {});
-  const [imagePath, setImagePath] = useState("");
+  const [hashtags, setHashtags] = useState<string[]>([]);
+  const [imageSelected, setImageSelected] = useState<boolean>(false);
+  const [errors, setErrors] = useState<Record<string, string | null>>({});
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      const newPath = URL.createObjectURL(e.target.files[0]);
-      setImagePath(newPath);
-    } else {
-      setImagePath("");
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (imagePath) {
-        URL.revokeObjectURL(imagePath);
-      }
-    };
-  }, [imagePath]);
+  const hasErrors = Object.values(errors).some((error) => error !== null);
 
   return (
     <Protected>
       <section className="max-w-[512px] mx-auto">
         <form action={formAction} className="w-full grid grid-cols-1 gap-5">
-          <Input
-            type="file"
-            name="image"
-            accept="image/*"
-            isRequired
-            required
-            classNames={{
-              input: "file:sr-only cursor-pointer !text-foreground-500",
-              inputWrapper: "!cursor-default h-14 py-2 transition-background",
-            }}
-            onChange={handleFileChange}
-            startContent={
-              imagePath && (
-                <div className="max-h-full max-w-10 content-center rounded-full overflow-hidden">
-                  <img src={imagePath} className="h-full" />
-                </div>
-              )
+          <ImageFileInput
+            setImageSelected={setImageSelected}
+            updateError={(error) =>
+              setErrors((prev) => ({ ...prev, image: error }))
             }
           />
-          <Textarea label="Description" name="description" />
-          <Input type="text" label="Tags" name="tags" />
-          <SubmitButton />
-          {state?.errors && (
-            <p className="text-red-400 text-center">{state.errors}</p>
-          )}
+          <DescriptionInput />
+          <HashtagInput hashtags={hashtags} setHashtags={setHashtags} />
+          <SubmitButton hasErrors={hasErrors} hasImage={imageSelected} />
+          {state.errors && <ErrorMessage message={state.errors} />}
         </form>
       </section>
     </Protected>

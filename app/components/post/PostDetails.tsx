@@ -18,7 +18,7 @@ const PostDetails = ({ post }: { post: PostIF }) => {
           sizes="(min-width: 640px) 30vw, 90vw"
         />
       </div>
-      <div className="flex flex-col gap-4 text-center">
+      <div className="flex flex-col gap-4">
         <User
           name={post.owner.username}
           description={post.owner.email}
@@ -30,6 +30,10 @@ const PostDetails = ({ post }: { post: PostIF }) => {
         />
         <Divider />
         <p>{post.description}</p>
+        <Divider />
+        <p className="text-sm text-primary-500">
+          {post.tags?.map((tag) => `#${tag} `)}
+        </p>
       </div>
     </div>
   );
