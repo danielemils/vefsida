@@ -40,7 +40,7 @@ export const getPostsWithCursor = async (
     ret.nextCursor = postDocs.pop()?.id;
   }
 
-  ret.posts = postDocs.map(d => d.toObject());
+  ret.posts = postDocs.map((d) => d.toObject());
 
   return ret;
 };

@@ -25,6 +25,14 @@ export async function submitForm(
 
   const img: File | null = formData.get("image") as File;
   const desc: string | null = formData.get("description") as string;
+  const hashtagsJSON: string | null = formData.get("hashtags") as string;
+
+  let hashtags: string[] = [];
+  try {
+    hashtags = hashtagsJSON ? JSON.parse(hashtagsJSON) : [];
+  } catch (error) {
+    return { errors: "Invalid hashtags" };
+  }
 
   if (!img) {
     return { errors: "Invalid image" };
@@ -35,6 +43,14 @@ export async function submitForm(
   } else if (desc && desc.length > MAX_DESCRIPTION_LENGTH) {
     return {
       errors: `Description needs to be shorter than ${MAX_DESCRIPTION_LENGTH} characters`,
+    };
+  } else if (hashtags && hashtags.length > MAX_TAG_ARRAY_LENGTH) {
+    return {
+      errors: `You can only add ${MAX_TAG_ARRAY_LENGTH} hashtags`,
+    };
+  } else if (hashtags && hashtags.some((tag) => tag.length > MAX_TAG_LENGTH)) {
+    return {
+      errors: `Hashtags need to be shorter than ${MAX_TAG_LENGTH} characters`,
     };
   }
 
@@ -49,6 +65,7 @@ export async function submitForm(
     imageURL: url,
     description: formData.get("description") as string,
     owner: new Types.ObjectId(session.user.id),
+    tags: hashtags,
   };
 
   try {
