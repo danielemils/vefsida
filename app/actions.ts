@@ -63,7 +63,7 @@ export async function submitForm(
 
   const postObj: PostSchemaType = {
     imageURL: url,
-    description: formData.get("description") as string,
+    description: desc,
     owner: new Types.ObjectId(session.user.id),
     tags: hashtags,
   };
@@ -75,6 +75,6 @@ export async function submitForm(
     console.error(error);
   }
 
-  revalidatePath("/");
+  // revalidatePath("/");
   redirect("/");
 }

@@ -6,12 +6,13 @@ import { avatarProps } from "@/app/const/nextUIProps";
 
 const PostDetails = ({ post }: { post: PostIF }) => {
   if (!post) return;
+  console.log(post);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-5">
       <div className="h-[50vh] md:h-[70vh] relative rounded-lg overflow-hidden bg-black">
         <Image
-          src={post.imageURL}
+          src={post.imageURL || "/img/alt_img.png"}
           alt={post.description || "Image"}
           fill
           className="object-contain w-full h-full"
