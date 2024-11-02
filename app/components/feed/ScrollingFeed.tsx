@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import Loading from "@/comps/Loading";
 import { PostsWithCursorIF } from "@/app/utils/database";
 import useSWRInfinite from "swr/infinite";
+import { FeedProvider } from "@/comps/feed/FeedContext";
 
 const fetcher = async (url: string): Promise<PostsWithCursorIF> =>
   fetch(url).then((r) => r.json());
@@ -26,14 +27,11 @@ const ScrollingFeed = () => {
     }`;
   };
 
-  const { data, size, setSize, isLoading, isValidating } = useSWRInfinite(
-    getKey,
-    fetcher,
-    {
+  const { data, size, setSize, isLoading, isValidating, mutate } =
+    useSWRInfinite(getKey, fetcher, {
       // revalidateAll: true,
       // refreshInterval: 60_000,
-    }
-  );
+    });
 
   const { ref } = useInView({
     onChange: (inView) =>
@@ -46,7 +44,9 @@ const ScrollingFeed = () => {
 
   return (
     <div>
-      <FeedContainer posts={posts} />
+      <FeedProvider mutate={mutate}>
+        <FeedContainer posts={posts} />
+      </FeedProvider>
       {!reachedEnd && !isLoading && !isValidating && <div ref={ref} />}
       {(isLoading || isValidating) && <Loading />}
     </div>

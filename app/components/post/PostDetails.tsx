@@ -3,10 +3,16 @@ import Image from "next/image";
 import { User } from "@nextui-org/user";
 import { Divider } from "@nextui-org/divider";
 import { avatarProps } from "@/app/const/nextUIProps";
+import PostOptions from "@/comps/post/PostOptions";
 
-const PostDetails = ({ post }: { post: PostIF }) => {
+const PostDetails = ({
+  post,
+  onClose,
+}: {
+  post: PostIF;
+  onClose?: () => void;
+}) => {
   if (!post) return;
-  console.log(post);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-5">
@@ -20,15 +26,18 @@ const PostDetails = ({ post }: { post: PostIF }) => {
         />
       </div>
       <div className="flex flex-col gap-4">
-        <User
-          name={post.owner.username}
-          description={post.owner.email}
-          avatarProps={{
-            ...avatarProps,
-            src: post.owner.image,
-          }}
-          className="self-start"
-        />
+        <div className="flex justify-between">
+          <User
+            name={post.owner.username}
+            description={post.owner.email}
+            avatarProps={{
+              ...avatarProps,
+              src: post.owner.image,
+            }}
+            className="self-start"
+          />
+          <PostOptions post={post} onClose={onClose} />
+        </div>
         <Divider />
         <p>{post.description}</p>
         <Divider />

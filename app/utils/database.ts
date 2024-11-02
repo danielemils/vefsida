@@ -44,11 +44,13 @@ export const getPostsWithCursor = async (
 
   // Use placeholder images and simulate network latency in development
   if (process.env.DATA_SAVER === "true") {
-    ret.posts.map((p) => {
-      p.imageURL = "";
-    });
+    if (cursor) {
+      ret.posts.map((p) => {
+        p.imageURL = "";
+      });
+    }
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    // await new Promise((resolve) => setTimeout(resolve, 500));
   }
 
   return ret;

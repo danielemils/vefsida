@@ -10,7 +10,7 @@ import {
 import PostDetails from "@/comps/post/PostDetails";
 
 const PostInteract = ({ post }: Readonly<{ post: PostIF }>) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   return (
     <>
@@ -24,7 +24,7 @@ const PostInteract = ({ post }: Readonly<{ post: PostIF }>) => {
       >
         <ModalContent>
           <ModalBody>
-            <PostDetails post={post} />
+            <PostDetails post={post} onClose={() => onClose()} />
           </ModalBody>
         </ModalContent>
       </Modal>
