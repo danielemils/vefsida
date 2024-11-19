@@ -1,47 +1,37 @@
 "use client";
 
-import { useCallback } from "react";
 import { ROW_LENGTH, FETCH_NUM_ROWS } from "@/app/const/feedOptions";
 import FeedContainer from "@/comps/feed/FeedContainer";
 import { useInView } from "react-intersection-observer";
 import Loading from "@/comps/Loading";
 import { PostsWithCursorIF } from "@/app/utils/database";
 import useSWRInfinite from "swr/infinite";
+import { FeedProvider } from "@/comps/feed/FeedContext";
 
 const fetcher = async (url: string): Promise<PostsWithCursorIF> =>
   fetch(url).then((r) => r.json());
 
-const ScrollingFeed = ({
-  initCursorId,
-}: Readonly<{ initCursorId: string }>) => {
-  const getKey = useCallback(
-    (pageIndex: number, previousPageData: PostsWithCursorIF) => {
-      // reached the end
-      if (previousPageData && !previousPageData.nextCursor) return null;
+const ScrollingFeed = () => {
+  const getKey = (pageIndex: number, previousPageData: PostsWithCursorIF) => {
+    // reached the end
+    if (previousPageData && !previousPageData.nextCursor) return null;
 
-      // first page, we don't have `previousPageData`
-      if (pageIndex === 0) {
-        return `/api/posts?count=${
-          ROW_LENGTH * FETCH_NUM_ROWS
-        }&cursor=${initCursorId}`;
-      }
+    // first page, we don't have `previousPageData`
+    if (pageIndex === 0) {
+      return `/api/posts?count=${ROW_LENGTH * FETCH_NUM_ROWS}`;
+    }
 
-      // add the cursor to the API endpoint
-      return `/api/posts?count=${ROW_LENGTH * FETCH_NUM_ROWS}&cursor=${
-        previousPageData.nextCursor
-      }`;
-    },
-    [initCursorId]
-  );
+    // add the cursor to the API endpoint
+    return `/api/posts?count=${ROW_LENGTH * FETCH_NUM_ROWS}&cursor=${
+      previousPageData.nextCursor
+    }`;
+  };
 
-  const { data, size, setSize, isLoading, isValidating } = useSWRInfinite(
-    getKey,
-    fetcher,
-    {
+  const { data, size, setSize, isLoading, isValidating, mutate } =
+    useSWRInfinite(getKey, fetcher, {
       // revalidateAll: true,
       // refreshInterval: 60_000,
-    }
-  );
+    });
 
   const { ref } = useInView({
     onChange: (inView) =>
@@ -53,8 +43,10 @@ const ScrollingFeed = ({
   const reachedEnd = data ? !!!data?.at(-1)?.nextCursor : false;
 
   return (
-    <div className="mt-1">
-      <FeedContainer posts={posts} />
+    <div>
+      <FeedProvider mutate={mutate}>
+        <FeedContainer posts={posts} />
+      </FeedProvider>
       {!reachedEnd && !isLoading && !isValidating && <div ref={ref} />}
       {(isLoading || isValidating) && <Loading />}
     </div>

@@ -1,11 +1,11 @@
 "use server";
 
-import Post, { PostSchemaType } from "@/app/models/Post";
+import Post, { PostIF, PostSchemaType } from "@/app/models/Post";
 import { connectToDb } from "@/app/utils/database";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+// import { revalidatePath } from "next/cache";
 import { isValidImageFile } from "@/app/utils/files";
-import { createURL } from "@/app/utils/vercelBlob";
+import { createURL, deleteURL } from "@/app/utils/vercelBlob";
 import { auth } from "@/app/utils/auth";
 import {
   MAX_DESCRIPTION_LENGTH,
@@ -63,7 +63,7 @@ export async function submitForm(
 
   const postObj: PostSchemaType = {
     imageURL: url,
-    description: formData.get("description") as string,
+    description: desc,
     owner: new Types.ObjectId(session.user.id),
     tags: hashtags,
   };
@@ -72,9 +72,32 @@ export async function submitForm(
     await connectToDb();
     await Post.create(postObj);
   } catch (error) {
-    console.error(error);
+    return { errors: "Failed to create post" };
   }
 
-  revalidatePath("/");
+  // revalidatePath("/");
   redirect("/");
+}
+
+export async function deletePost(post: PostIF): Promise<{ errors?: string }> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { errors: "Unauthorized" };
+  }
+  if (session.user.id !== post?.owner?.id) {
+    return { errors: "Unauthorized" };
+  }
+
+  try {
+    await connectToDb();
+    const deletedBlob = await deleteURL(post.imageURL);
+    if (!deletedBlob) {
+      return { errors: "Failed to delete post" };
+    }
+    await Post.deleteOne({ _id: new Types.ObjectId(post.id) });
+  } catch (error) {
+    return { errors: "Failed to delete post" };
+  }
+
+  return {};
 }
