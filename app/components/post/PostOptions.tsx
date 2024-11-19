@@ -55,7 +55,7 @@ const PostOptions = ({
         onAction={(key) => handleAction(key)}
       >
         <DropdownItem key="delete" className="text-danger" color="danger">
-          Delete file
+          Delete post
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
