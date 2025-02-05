@@ -14,8 +14,8 @@ import { useState } from "react";
 type MenuItems = [string, string][];
 const menuItems: MenuItems = [
   ["Home", "/"],
-  ["Create", "/Create"],
-  ["About", "/About"],
+  ["Create", "/create"],
+  ["About", "/about"],
 ];
 
 const Navbar = () => {
