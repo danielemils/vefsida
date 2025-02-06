@@ -3,7 +3,7 @@
 import { submitForm } from "@/app/actions";
 import { useFormState, useFormStatus } from "react-dom";
 import Protected from "@/comps/Protected";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { useState } from "react";
 import HashtagInput from "@/comps/create/HashtagInput";
 import ImageFileInput from "@/comps/create/ImageFileInput";

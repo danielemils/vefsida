@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import Navbar from "@/comps/nav/Navbar";
 import Providers from "@/comps/Providers";
-import { ScrollShadow } from "@nextui-org/scroll-shadow";
+import { ScrollShadow } from "@heroui/scroll-shadow";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="overflow-visible">
+    <html lang="en" className="overflow-visible" suppressHydrationWarning>
       <body className={`${inter.className} min-h-full min-w-full`}>
         {/* <div className="fixed w-screen h-screen bg-gradient-to-t from-neutral-800 to-neutral-900" /> */}
         <Providers>

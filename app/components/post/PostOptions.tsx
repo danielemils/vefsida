@@ -5,8 +5,8 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/dropdown";
-import { Button } from "@nextui-org/button";
+} from "@heroui/dropdown";
+import { Button } from "@heroui/button";
 import { Dots } from "@/comps/icons";
 import { useSession } from "next-auth/react";
 import { PostIF } from "@/app/models/Post";

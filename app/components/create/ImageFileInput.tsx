@@ -1,4 +1,4 @@
-import { Input } from "@nextui-org/input";
+import { Input } from "@heroui/input";
 import { useEffect, useState } from "react";
 import {
   MAX_FILE_SIZE,

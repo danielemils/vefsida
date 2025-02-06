@@ -8,7 +8,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-} from "@nextui-org/navbar";
+} from "@heroui/navbar";
 import { useState } from "react";
 
 type MenuItems = [string, string][];

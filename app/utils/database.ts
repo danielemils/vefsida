@@ -1,6 +1,12 @@
 import "server-only";
 
-import { connect, connection, ConnectionStates, Types } from "mongoose";
+import {
+  connect,
+  connection,
+  ConnectionStates,
+  Types,
+  Error as MongooseError,
+} from "mongoose";
 import User, { UserIF } from "@/app/models/User";
 import Post, { PostIF } from "@/app/models/Post";
 
@@ -44,14 +50,32 @@ export const getPostsWithCursor = async (
 
   // Use placeholder images and simulate network latency in development
   if (process.env.DATA_SAVER === "true") {
-    if (cursor) {
-      ret.posts.map((p) => {
-        p.imageURL = "";
-      });
-    }
+    // if (cursor) {
+    //   ret.posts.map((p) => {
+    //     p.imageURL = "";
+    //   });
+    // }
+    ret.posts.map((p) => {
+      p.imageURL = "";
+    });
 
     // await new Promise((resolve) => setTimeout(resolve, 500));
   }
 
   return ret;
+};
+
+export const getUserById = async (id: string): Promise<UserIF | undefined> => {
+  await connectToDb();
+
+  try {
+    const user = await User.findById(id);
+    return user?.toObject();
+  } catch (error) {
+    if (!(error instanceof MongooseError.CastError)) {
+      console.error(error);
+    }
+  }
+
+  return undefined;
 };

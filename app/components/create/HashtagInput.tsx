@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@nextui-org/input";
-import { Button } from "@nextui-org/button";
-import { Chip } from "@nextui-org/chip";
+import { Input } from "@heroui/input";
+import { Button } from "@heroui/button";
+import { Chip } from "@heroui/chip";
 import {
   MAX_TAG_ARRAY_LENGTH,
   MAX_TAG_LENGTH,

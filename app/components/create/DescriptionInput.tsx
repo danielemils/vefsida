@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MAX_DESCRIPTION_LENGTH } from "@/app/const/validationOptions";
-import { Textarea } from "@nextui-org/input";
+import { Textarea } from "@heroui/input";
 import CountDisplay from "@/comps/CountDisplay";
 
 const DescriptionInput = () => {

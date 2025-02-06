@@ -6,7 +6,7 @@ import {
   Modal,
   ModalContent,
   ModalBody,
-} from "@nextui-org/modal";
+} from "@heroui/modal";
 import PostDetails from "@/comps/post/PostDetails";
 
 const PostInteract = ({ post }: Readonly<{ post: PostIF }>) => {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NavbarItem } from "@nextui-org/navbar";
+import { NavbarItem } from "@heroui/navbar";
 
 const NavLink = ({
   href,

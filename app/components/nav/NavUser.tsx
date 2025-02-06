@@ -2,16 +2,16 @@
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Button } from "@nextui-org/button";
-import { NavbarContent, NavbarItem } from "@nextui-org/navbar";
+import { Button } from "@heroui/button";
+import { NavbarContent, NavbarItem } from "@heroui/navbar";
 import {
   Dropdown,
   DropdownMenu,
   DropdownTrigger,
   DropdownItem,
   DropdownSection,
-} from "@nextui-org/dropdown";
-import { Avatar } from "@nextui-org/avatar";
+} from "@heroui/dropdown";
+import { Avatar } from "@heroui/avatar";
 import Loading from "@/comps/Loading";
 import ThemeSwitcher from "@/comps/nav/ThemeSwitcher";
 import { avatarProps } from "@/app/const/nextUIProps";
@@ -57,25 +57,44 @@ const NavUser = () => {
                   variant="flat"
                   disabledKeys={["profile"]}
                 >
-                  <DropdownSection aria-label="Profile" showDivider>
+                  <DropdownSection
+                    aria-label="Profile Information"
+                    showDivider
+                    title="Signed in as:"
+                  >
                     <DropdownItem
                       key="profile"
                       isReadOnly
-                      className="flex-col opacity-100"
+                      className="opacity-100"
+                      textValue={session?.user?.name || "No username"}
                     >
-                      <p>Signed in as</p>
-                      <p className="font-semibold">
-                        {session?.user?.email || "?"}
-                      </p>
+                      <p className="font-semibold">{session?.user?.name}</p>
+                      <p>{session?.user?.email}</p>
                     </DropdownItem>
                   </DropdownSection>
-                  <DropdownItem
-                    key="sign_out"
-                    color="danger"
-                    href="/api/auth/signout"
-                  >
-                    Sign Out
-                  </DropdownItem>
+                  <DropdownSection aria-label="Actions" showDivider>
+                    <DropdownItem
+                      key="profile-link"
+                      // temporarily bugged?
+                      // href={`/u/${session?.user?.id}`}
+                      textValue="View profile"
+                    >
+                      {session?.user?.id && (
+                        <Link href={`/u/${session?.user?.id}`}>
+                          View profile
+                        </Link>
+                      )}
+                    </DropdownItem>
+                  </DropdownSection>
+                  <DropdownSection aria-label="Sign out">
+                    <DropdownItem
+                      key="sign_out"
+                      color="danger"
+                      href="/api/auth/signout"
+                    >
+                      Sign Out
+                    </DropdownItem>
+                  </DropdownSection>
                 </DropdownMenu>
               </Dropdown>
             </>

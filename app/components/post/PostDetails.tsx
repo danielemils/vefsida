@@ -1,9 +1,8 @@
 import { PostIF } from "@/app/models/Post";
 import Image from "next/image";
-import { User } from "@nextui-org/user";
-import { Divider } from "@nextui-org/divider";
-import { avatarProps } from "@/app/const/nextUIProps";
+import { Divider } from "@heroui/divider";
 import PostOptions from "@/comps/post/PostOptions";
+import UserInfo from "@/comps/user/UserInfo";
 
 const PostDetails = ({
   post,
@@ -27,15 +26,7 @@ const PostDetails = ({
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex justify-between">
-          <User
-            name={post.owner.username}
-            description={post.owner.email}
-            avatarProps={{
-              ...avatarProps,
-              src: post.owner.image,
-            }}
-            className="self-start"
-          />
+          <UserInfo user={post.owner} />
           <PostOptions post={post} onClose={onClose} />
         </div>
         <Divider />
