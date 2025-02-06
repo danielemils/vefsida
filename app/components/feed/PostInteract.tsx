@@ -1,16 +1,11 @@
 "use client";
 
 import { PostIF } from "@/app/models/Post";
-import {
-  useDisclosure,
-  Modal,
-  ModalContent,
-  ModalBody,
-} from "@heroui/modal";
+import { useDisclosure, Modal, ModalContent, ModalBody } from "@heroui/modal";
 import PostDetails from "@/comps/post/PostDetails";
 
 const PostInteract = ({ post }: Readonly<{ post: PostIF }>) => {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
@@ -23,9 +18,13 @@ const PostInteract = ({ post }: Readonly<{ post: PostIF }>) => {
         className="max-w-screen-lg py-4"
       >
         <ModalContent>
-          <ModalBody>
-            <PostDetails post={post} onClose={() => onClose()} />
-          </ModalBody>
+          {(onClose) => (
+            <>
+              <ModalBody>
+                <PostDetails post={post} onClose={() => onClose()} />
+              </ModalBody>
+            </>
+          )}
         </ModalContent>
       </Modal>
     </>

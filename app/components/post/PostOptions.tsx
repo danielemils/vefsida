@@ -26,11 +26,13 @@ const PostOptions = ({
 
   const handleAction = async (key: Key) => {
     if (key === "delete") {
-      if (confirm("Are you sure you want to delete this post?")) {
-        const ret = await deletePost(post);
-        if (!ret.errors) {
-          onClose?.();
-          mutate(); //clear SWR cached feed
+      if (session?.user?.id && session.user.id === post.owner.id) {
+        if (confirm("Are you sure you want to delete this post?")) {
+          const ret = await deletePost(post);
+          if (!ret.errors) {
+            onClose?.();
+            mutate(); //clear SWR cached feed
+          }
         }
       }
     }
@@ -49,7 +51,7 @@ const PostOptions = ({
         </Button>
       </DropdownTrigger>
       <DropdownMenu
-        aria-label="Static Actions"
+        aria-label="Post Actions"
         disabledKeys={disabledKeys}
         closeOnSelect
         onAction={(key) => handleAction(key)}
