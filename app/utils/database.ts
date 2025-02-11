@@ -27,11 +27,24 @@ export interface PostsWithCursorIF {
 
 export const getPostsWithCursor = async (
   count: number,
-  cursor?: string
+  cursor?: string,
+  userId?: string,
+  tag?: string
 ): Promise<PostsWithCursorIF | undefined> => {
   await connectToDb();
 
-  const filter = cursor ? { _id: { $lte: new Types.ObjectId(cursor) } } : {};
+  // const filter = cursor ? { _id: { $lte: new Types.ObjectId(cursor) } } : {};
+  const filter: Record<string, any> = {};
+  if (cursor) {
+    filter._id = { $lt: new Types.ObjectId(cursor) };
+  }
+  if (userId) {
+    filter.owner = new Types.ObjectId(userId);
+  }
+  if (tag) {
+    filter.tags = { $in: [tag] };
+  }
+
   const postDocs = await Post.find(filter)
     .limit(count + 1)
     .sort({ _id: "desc" })

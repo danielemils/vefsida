@@ -15,6 +15,7 @@ import { Avatar } from "@heroui/avatar";
 import Loading from "@/comps/Loading";
 import ThemeSwitcher from "@/comps/nav/ThemeSwitcher";
 import { avatarProps } from "@/app/const/nextUIProps";
+import { getProfileURL } from "@/app/utils/user";
 
 const NavUser = () => {
   const { data: session, status } = useSession();
@@ -75,15 +76,10 @@ const NavUser = () => {
                   <DropdownSection aria-label="Actions" showDivider>
                     <DropdownItem
                       key="profile-link"
-                      // temporarily bugged?
-                      // href={`/u/${session?.user?.id}`}
+                      href={getProfileURL(session?.user?.id)}
                       textValue="View profile"
                     >
-                      {session?.user?.id && (
-                        <Link href={`/u/${session?.user?.id}`}>
-                          View profile
-                        </Link>
-                      )}
+                      View profile
                     </DropdownItem>
                   </DropdownSection>
                   <DropdownSection aria-label="Sign out">

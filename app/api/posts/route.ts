@@ -9,8 +9,15 @@ export const GET = async (req: Request): Promise<Response> => {
     1
   );
   const cursor = searchParams.get("cursor");
+  const userId = searchParams.get("userId");
+  const tag = searchParams.get("tag");
 
-  const posts = await getPostsWithCursor(count, cursor ?? undefined);
+  const posts = await getPostsWithCursor(
+    count,
+    cursor ?? undefined,
+    userId ?? undefined,
+    tag ?? undefined
+  );
 
   const res = Response.json(posts, { status: 200 });
 

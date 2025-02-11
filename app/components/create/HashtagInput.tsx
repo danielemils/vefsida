@@ -75,7 +75,7 @@ const HashtagInput: React.FC<HashtagInputProps> = ({
             isDisabled={hashtags.length >= MAX_TAG_ARRAY_LENGTH}
           />
           <Button
-            onClick={addHashtag}
+            onPress={addHashtag}
             isDisabled={
               inputValue === "" || hashtags.length >= MAX_TAG_ARRAY_LENGTH
             }
