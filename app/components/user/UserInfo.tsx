@@ -41,6 +41,7 @@ const UserInfo = ({
       {linkToProfile ? (
         <Link
           href={getProfileURL(user?.id)}
+          prefetch={true}
           aria-label={`Visit ${user?.username}'s profile`}
         >
           {userComponent}

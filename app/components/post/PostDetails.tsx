@@ -44,6 +44,7 @@ const PostDetails = ({
               <Link
                 key={`${tag}`}
                 href={`/tag/${tag}`}
+                prefetch={true}
                 className="text-sm text-primary-500"
               >
                 #{tag}
